@@ -1,10 +1,13 @@
-obj-m += st7735fb.o
+obj-m += st7735fb.o rpi_st7735fb.o
+
+#BUILD_DIR=/lib/module/$(shell uname -r)/build
+BUILD_DIR = /home/neil/rpi/kernel/linux
 
 modules:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	make -C $(BUILD_DIR) M=$(PWD) modules
 
 modules_install:
-	make -C /lib/modules/${shell uname -r}/build M=${PWD} modules_install
+	make -C $(BUILD_DIR) M=$(PWD) modules_install
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	make -C $(BUILD_DIR) M=$(PWD) clean
