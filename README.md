@@ -5,7 +5,7 @@ The ST7735 is a single-chip controller/driver for 262K-color, graphic type
 TFT-LCD, which can be picked up on eBay relatively cheaply with pin-outs on
 a break-out board.
 
-[1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
+![1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
 
 Originally based on code from https://github.com/ohporter/linux-am33x/tree/st7735fb
 
@@ -15,9 +15,8 @@ however in recent kernel versions (e.g. 3.6.11), the SPI modules should be alrea
 Once compiled, installed and inserted, you should get a second frame buffer at `/dev/fb1`.
 
 Further technical details for the LCD screen can be found in the 
-[datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF].
-
-Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update))
+[datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Tested working
+with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update))
 
 Pre-requisites
 --------------
