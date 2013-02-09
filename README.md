@@ -21,7 +21,7 @@ Pre-requisites
 
 2. Ensure the gcc build tools are installed: 
 
-    $ sudo apt-get install build-essential
+    `$ sudo apt-get install build-essential`
 
 Building and installing the frame buffer driver
 -----------------------------------------------
