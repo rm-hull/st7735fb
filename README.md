@@ -31,26 +31,27 @@ Once compiled, installed and inserted, you should get a second frame buffer at `
 
 Pin-outs
 --------
-There appear to be a large number of break-out boards for this device; this one works for me:
+There appear to be a large number of break-out boards available for this device; this is the one 
+I have, with an additional SD card slot:
 
-| Pin | Name    | Description              |
-|----:|:--------|:-------------------------|
-| 1   | GND     | 0V                       |
-| 2   | VCC     | 3V3                      |
-| 3   | NC      |                          |
-| 4   | NC      |                          |
-| 5   | NC      |                          |
-| 6   | RESET   | Set low to reset         |
-| 6   | A0      | SPI data/command         |
-| 7   | SDA     | SPI data                 |
-| 8   | SCK     | SPI clock                |
-| 9   | CS      | Chip select - set low    |
-| 10  | SD-SCK  | SD serial clock          |
-| 11  | SD-MISO | SD master in, slave out  |
-| 12  | SD-MOSI | SD master out, slave in  |
-| 13  | SD-CS   | SD chip select           |
-| 14  | LED+    |   aligned                |
-| 15  | LED-    |   aligned                |
+| TFT Pin | Name    | Remarks                     | RPi Pin | RPi Function      |
+|--------:|:--------|:----------------------------|--------:|-------------------|
+| 1       | GND     | Ground                      | 6       | GND               |
+| 2       | VCC     | Power                       | 1       | 3V3)              |
+| 3       | NC      |                             |         |                   |
+| 4       | NC      |                             |         |                   |
+| 5       | NC      |                             |         |                   |
+| 6       | RESET   | Set low to reset            | 18      | GPIO 24           |
+| 7       | A0      | Data/command select         | 16      | GPIO 23           |
+| 8       | SDA     | SPI data                    | 19      | GPIO 10 (MOSI)    |
+| 9       | SCK     | SPI clock                   | 23      | GPIO 11 (SPI CLK) |
+| 10      | CS      | SPI chip select - set low   | 24      | GPIO 8 (SPI CS0)  |
+| 11      | SD-SCK  | SD serial clock             |         |                   |
+| 12      | SD-MISO | SD master in, slave out     |         |                   |
+| 13      | SD-MOSI | SD master out, slave in     |         |                   |
+| 14      | SD-CS   | SD chip select              |         |                   |
+| 15      | LED+    | Backlight control 3V3 - 3V7 | 12      | GPIO 18 (PWM CLK) |
+| 16      | LED-    | Backlight ground            | 6       | GND               |
 
 Wiring Schematic
 ----------------
