@@ -7,26 +7,39 @@ a break-out board.
 
 ![1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
 
-Originally based on code from https://github.com/ohporter/linux-am33x/tree/st7735fb
+Originally based on code from https://github.com/ohporter/linux-am33x/tree/st7735fb. 
+Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update), 
+kernel 3.6.11+ #371)
 
 Further technical details for the LCD screen can be found in the 
-[datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Tested working
-with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update))
+[datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Other documentation
+can also be found in `docs/tech-spec`.
 
 Pre-requisites
 --------------
-- to do
+1. On the Raspberry Pi, enable SPI: edit `/etc/modprobe.d/raspi-blacklist.conf`
+   to comment out blacklisting of _spi_bcm2708_.
 
-1. Enable SPI by editing `/etc/modprobe.d/raspi-blacklist.conf` to comment out blacklisting of _spi_bcm2708_.
+2. Ensure that the latest firmware has been applied to the Raspberry Pi. Use the updater from
+   https://github.com/Hexxeh/rpi-update to perform the update. After rebooting, confirm the
+   kernel version as follows:
 
-2. Ensure the gcc build tools are installed: 
+       $ uname -a
+       Linux raspberrypi 3.6.11+ #371 PREEMPT Thu Feb 7 16:31:35 GMT 2013 armv6l GNU/Linux
 
-    `$ sudo apt-get install build-essential`
+3. Ensure the gcc build tools are installed on a host PC (it is much
+   quicker to cross-compile than build the kernel on the RPi): 
+
+       $ sudo apt-get install build-essential
+
+4. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
+   *Note:* 
+   
+     - it is only necessary to compile the kernel (up-to section 4 'Perform the compilation' in the guide).
+     - when the guide refers to `.config`, this is provided as `etc/.config` in git.
 
 Building and installing the frame buffer driver
 -----------------------------------------------
-- to do
-
 Once compiled, installed and inserted, you should get a second frame buffer at `/dev/fb1`.
 
 Pin-outs
