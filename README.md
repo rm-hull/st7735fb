@@ -42,7 +42,7 @@ I have, with an additional SD card slot:
 | 4       | NC      |                             |         |                   |
 | 5       | NC      |                             |         |                   |
 | 6       | RESET   | Set low to reset            | 18      | GPIO 24           |
-| 7       | A0      | Data/command select         | 16      | GPIO 23           |
+| 7       | A0      | Data/command select (_aka_ 'register select')        | 16      | GPIO 23           |
 | 8       | SDA     | SPI data                    | 19      | GPIO 10 (MOSI)    |
 | 9       | SCK     | SPI clock                   | 23      | GPIO 11 (SPI CLK) |
 | 10      | CS      | SPI chip select - set low   | 24      | GPIO 8 (SPI CS0)  |
