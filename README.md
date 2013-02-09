@@ -62,23 +62,16 @@ Stripboard Layout
 
 Testing
 -------
-## mplayer
-WIDTH is the display width.  
-_scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
+### mplayer
+WIDTH is the display width. _scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
 
-    $ apt-get install -y mplayer
-    $ wget http://fredrik.hubbe.net/plugger/test.mpg
+    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=WIDTH:-3 examples/test.mpg
 
-    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=WIDTH:-3 test.mpg
+### Image viewer
 
-## Image viewer
+    $ FRAMEBUFFER=/dev/fb1 fim examples/Tux-small.png
 
-    $ apt-get -y install fim
-    $ wget http://www.olsug.org/wiki/images/9/95/Tux-small.png
-
-    $ FRAMEBUFFER=/dev/fb1 fim Tux-small.png
-
-## Console
+### Console
 Use display as the primary console.  
 If a keyboard is plugged in after power on, a reboot may be necessary.
 
