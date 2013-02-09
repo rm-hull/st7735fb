@@ -17,8 +17,11 @@ Pre-requisites
 --------------
 - to do
 
-This kernel module also requires the SPI module from https://github.com/bootc/linux/tree/rpi-i2cspi; 
-however in recent kernel versions (e.g. 3.6.11), the SPI modules should be already pre-built 
+1. Enable SPI by editing `/etc/modprobe.d/raspi-blacklist.conf` to comment out blacklisting of _spi_bcm2708_.
+
+2. Ensure the gcc build tools are installed: 
+
+    $ sudo apt-get install build-essential
 
 Building and installing the frame buffer driver
 -----------------------------------------------
@@ -57,6 +60,49 @@ Stripboard Layout
 -----------------
 - to do
 
+Testing
+-------
+## mplayer
+WIDTH is the display width.  
+_scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
+
+    $ apt-get install -y mplayer
+    $ wget http://fredrik.hubbe.net/plugger/test.mpg
+
+    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=WIDTH:-3 test.mpg
+
+## Image viewer
+
+    $ apt-get -y install fim
+    $ wget http://www.olsug.org/wiki/images/9/95/Tux-small.png
+
+    $ FRAMEBUFFER=/dev/fb1 fim Tux-small.png
+
+## Console
+Use display as the primary console.  
+If a keyboard is plugged in after power on, a reboot may be necessary.
+
+Map console 1 to framebuffer 1, login screen will show up on the display
+
+    $ con2fbmap 1 1
+
+    $ con2fbmap 1
+    console 1 is mapped to framebuffer 1
+
+Revert
+
+    $ con2fbmap 1 0
+
+Using the LCD as a console device
+---------------------------------
+To use the display as a console, add this to the end of the line in `/boot/cmdline.txt`
+
+    fbcon=map:10 fbcon=font:ProFont6x11
+
+*fbcon=rotate:1* can also be used. See
+[fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72)
+for more info.
+
 TODO
 ----
 * Extended documentation
@@ -75,12 +121,11 @@ References
 
 * http://www.raspberrypi.org/phpBB3/viewtopic.php?t=28696&p=262909
 
-* https://github.com/ohporter/linux-am33x/tree/st7735fb
-
 * http://elinux.org/images/1/19/Passing_Time_With_SPI_Framebuffer_Driver.pdf
-
-* https://github.com/ngreatorex/st7735fb 
 
 * http://www.flickr.com/photos/ngreatorex/7672743302/
 
+* https://github.com/notro/fbtft
+
 * http://fritzing.org
+
