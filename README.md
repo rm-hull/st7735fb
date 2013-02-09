@@ -50,7 +50,7 @@ I have, with an additional SD card slot:
 | 12      | SD-MISO | SD master in, slave out     |         |                   |
 | 13      | SD-MOSI | SD master out, slave in     |         |                   |
 | 14      | SD-CS   | SD chip select              |         |                   |
-| 15      | LED+    | Backlight control 3V3 - 3V7 | 12      | GPIO 18 (PWM CLK) |
+| 15      | LED+    | Backlight control 3V3 - 3V7, already fitted with 10R resistor? | 12      | GPIO 18 (PWM CLK) |
 | 16      | LED-    | Backlight ground            | 6       | GND               |
 
 Wiring Schematic
