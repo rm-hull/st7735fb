@@ -6,7 +6,7 @@
 #define SPI_BUS_CS1 	0
 #define SPI_BUS_SPEED 	12000000
 
-const char this_driver_name[] = "adafruit_tft18";
+const char this_driver_name[] = "rpi_hy18_tft";
 
 static struct st7735fb_platform_data st7735fb_data = {
        .rst_gpio       = 23,
@@ -41,28 +41,28 @@ static int __init add_st7735fb_device_to_bus(void)
 	spi_device->chip_select = SPI_BUS_CS1;
 
 	/* Check whether this SPI bus.cs is already claimed */
-	snprintf(buff, sizeof(buff), "%s.%u", 
+	snprintf(buff, sizeof(buff), "%s.%u",
 			dev_name(&spi_device->master->dev),
 			spi_device->chip_select);
 
 	pdev = bus_find_device_by_name(spi_device->dev.bus, NULL, buff);
  	if (pdev) {
-		/* We are not going to use this spi_device, so free it */ 
+		/* We are not going to use this spi_device, so free it */
 		spi_dev_put(spi_device);
-		
-		/* 
+
+		/*
 		 * There is already a device configured for this bus.cs combination.
-		 * It's okay if it's us. This happens if we previously loaded then 
-                 * unloaded our driver. 
+		 * It's okay if it's us. This happens if we previously loaded then
+                 * unloaded our driver.
                  * If it is not us, we complain and fail.
 		 */
-		if (pdev->driver && pdev->driver->name && 
+		if (pdev->driver && pdev->driver->name &&
 				strcmp(this_driver_name, pdev->driver->name)) {
-			printk(KERN_ALERT 
+			printk(KERN_ALERT
 				"Driver [%s] already registered for %s\n",
 				pdev->driver->name, buff);
 			status = -1;
-		} 
+		}
 	} else {
 		spi_device->dev.platform_data = &st7735fb_data;
 		spi_device->max_speed_hz = SPI_BUS_SPEED;
@@ -73,12 +73,12 @@ static int __init add_st7735fb_device_to_bus(void)
 		spi_device->controller_data = NULL;
 		strlcpy(spi_device->modalias, this_driver_name, SPI_NAME_SIZE);
 		status = spi_add_device(spi_device);
-		
-		if (status < 0) {	
+
+		if (status < 0) {
 			spi_dev_put(spi_device);
-			printk(KERN_ALERT "spi_add_device() failed: %d\n", 
-				status);		
-		}				
+			printk(KERN_ALERT "spi_add_device() failed: %d\n",
+				status);
+		}
 	}
 
 	put_device(&spi_master->dev);
