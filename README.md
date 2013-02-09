@@ -24,19 +24,22 @@ Pre-requisites
    https://github.com/Hexxeh/rpi-update to perform the update. After rebooting, confirm the
    kernel version as follows:
 
-       $ uname -a
-       Linux raspberrypi 3.6.11+ #371 PREEMPT Thu Feb 7 16:31:35 GMT 2013 armv6l GNU/Linux
+      ```
+      $ uname -a
+      Linux raspberrypi 3.6.11+ #371 PREEMPT Thu Feb 7 16:31:35 GMT 2013 armv6l GNU/Linux
+      ```
 
 3. Ensure the gcc build tools are installed on a host PC (it is much
    quicker to cross-compile than build the kernel on the RPi): 
 
-       $ sudo apt-get install build-essential
+      ```
+      $ sudo apt-get install build-essential
+      ```
 
 4. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
-   *Note:* 
-   
-     - it is only necessary to compile the kernel (up-to section 4 'Perform the compilation' in the guide).
-     - when the guide refers to `.config`, this is provided as `etc/.config` in git.
+   Note that: 
+   * it is only necessary to compile the kernel (up-to section 4 'Perform the compilation' in the guide).
+   * when the guide refers to `.config`, this is provided as `etc/config.gz` in git.
 
 Building and installing the frame buffer driver
 -----------------------------------------------
