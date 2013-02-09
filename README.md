@@ -34,7 +34,6 @@ Pre-requisites
 
       ```
       $ sudo apt-get install build-essential ncurses-dev
-
       ```
 
 4. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
