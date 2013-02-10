@@ -43,10 +43,20 @@ Pre-requisites
 
 Building and installing the frame buffer driver
 -----------------------------------------------
+Providing that the kernel built satisfactorially without any errors, enter:
+
+    $ cd src
+    $ export BUILD_DIR=../../linux
+    $ export CCPREFIX=../../tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/
+    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX}  modules
+
+Note that the exports for _BUILD_DIR_ and _CCPREFIX_ will be specific to where you built the kernel and where 
+the cross-compiler tools were unpacked.
+
 Once compiled, installed and inserted, you should get a second frame buffer at `/dev/fb1`.
 
-Pin-outs
---------
+Break-out board pin-outs
+------------------------
 There appear to be a large number of break-out boards available for this device; this is the one 
 I have, with an additional SD card slot:
 
@@ -58,7 +68,7 @@ I have, with an additional SD card slot:
 | 4       | NC      |                             |         |                   |
 | 5       | NC      |                             |         |                   |
 | 6       | RESET   | Set low to reset            | 18      | GPIO 24           |
-| 7       | A0      | Data/command select (_aka_ 'register select')        | 16      | GPIO 23           |
+| 7       | A0      | Data/command select (aka 'register select')        | 16      | GPIO 23           |
 | 8       | SDA     | SPI data                    | 19      | GPIO 10 (MOSI)    |
 | 9       | SCK     | SPI clock                   | 23      | GPIO 11 (SPI CLK) |
 | 10      | CS      | SPI chip select - set low   | 24      | GPIO 8 (SPI CS0)  |
