@@ -101,13 +101,18 @@ I have, with an additional SD card slot:
 | 15 | LED+ | Backlight control 3V3 - 3V7, already fitted with 10K resistor? | 1 | 3V3 | Red |
 | 16 | LED- | Backlight ground | 6 | GND | Black |
 
-Wiring Schematic
-----------------
-- to do
-
 Stripboard Layout
 -----------------
-- to do
+With 4 push-buttons, resistor values 10K.
+
+![Stripboard Layout](https://raw.github.com/rm-hull/st7735fb/master/doc/schematic_bb.png)
+
+Buttons (from top to bottom) are wired onto BCM pins as follows:
+
+* GPIO 14 (TxD)
+* GPIO 17 
+* GPIO 25
+* GPIO 22
 
 Testing
 -------
