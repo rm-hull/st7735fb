@@ -147,5 +147,7 @@ References
 
 * https://github.com/notro/fbtft
 
+* http://www.areinhardt.de/news/raspberry-pi-tft-display/
+
 * http://fritzing.org
 
