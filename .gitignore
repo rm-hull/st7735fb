@@ -11,3 +11,11 @@ Makefile.in
 /depcomp
 /install-sh
 /missing
+
+*.o
+*.cmd
+*.mod.c
+.tmp_versions/
+
+Module.symvers
+modules.order
