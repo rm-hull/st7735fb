@@ -149,5 +149,7 @@ References
 
 * http://www.areinhardt.de/news/raspberry-pi-tft-display/
 
+* http://www.whence.com/rpi/
+
 * http://fritzing.org
 
