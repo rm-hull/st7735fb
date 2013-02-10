@@ -57,14 +57,15 @@ Building and installing the frame buffer driver
    Briefly the compile steps are: 
 
     ```
-    $ cd ~/RPi/raspberrypi-linux
+    $ cd ~/RPi
     $ export CCPREFIX=~/RPi/tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/arm-linux-gnueabi-
     $ export MODULES_TEMP=~/RPi/modules
-    $ zcat etc/config.gz > ~/RPi/raspberrypi-linux/.config
+    $ wget https://github.com/rm-hull/st7735fb/raw/master/etc/config.gz
+    $ zcat config.gz > raspberrypi-linux/.config
+    $ cd raspberrypi-linux
     $ make mproper
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} oldconfig
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} -j 6
-    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} modules 
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=${MODULES_TEMP} modules_install
     ```
 
@@ -137,7 +138,7 @@ _scale_ is used because the movie is larger than most small displays. -3 means k
 
 Using the LCD as a console device
 ---------------------------------
-To use the display as a console, the kernel must be re-compiled with the ST7735 driver 'baked in' 
+To use the display as a console, the kernel must be re-compiled with the BCM SPI & ST7735 drivers 'baked in' 
 rather than as separate modules; do that, reinstall and add this to the end of the line in `/boot/cmdline.txt`
 
     fbcon=map:10 fbcon=rotate:1 fbcon=font:ProFont6x11
