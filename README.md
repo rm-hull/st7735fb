@@ -23,31 +23,41 @@ Building and installing the frame buffer driver
    https://github.com/Hexxeh/rpi-update to perform the update. After rebooting, confirm the
    kernel version as follows:
 
-      ```
-      $ uname -a
-      Linux raspberrypi 3.6.11+ #371 PREEMPT Thu Feb 7 16:31:35 GMT 2013 armv6l GNU/Linux
-      ```
+    ```
+    $ uname -a
+    Linux raspberrypi 3.6.11+ #371 PREEMPT Thu Feb 7 16:31:35 GMT 2013 armv6l GNU/Linux
+    ```
 
 3. Ensure the gcc build tools are installed on a host PC (it is much
    quicker to cross-compile than build the kernel on the RPi): 
 
-      ```
-      $ sudo apt-get install make build-essential ncurses-dev
-      ```
+    ```
+     $ sudo apt-get install make build-essential ncurses-dev git-core
+     ```
+     
 4. Download the kernel sources with the ST7735 drivers:
 
     ```
+    $ mkdir ~/RPi
+    $ cd ~/RPi
     $ git clone https://github.com/kamalmostafa/raspberrypi-linux.git
     $ git checkout rpi-3.6.y+kamal-st7735fb
     ```
 
+5. Download the cross-compiler tools:
+
+    ```
+    $ cd ~/RPi
+    $ git clone git://github.com/raspberrypi/tools.git
+
 5. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
    Note that when the guide refers to `.config`, this is provided as `etc/config.gz` in git.
 
-   Assume that the tools are installed in `~/RPi/tools`, and the kernel source is `~/RPi/raspberrypi-linux`. 
+   Let's assume that the tools are installed in `~/RPi/tools`, and the kernel source is `~/RPi/raspberrypi-linux`. 
    Briefly the compile steps are: 
 
     ```
+    $ cd ~/RPi/raspberrypi-linux
     $ export CCPREFIX=~/RPi/tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/arm-linux-gnueabi-
     $ export MODULES_TEMP=~/RPi/modules
     $ zcat etc/config.gz > ~/RPi/raspberrypi-linux/.config
@@ -117,7 +127,7 @@ Buttons (from top to bottom) are wired onto BCM pins as follows:
 Testing
 -------
 ### mplayer
-WIDTH is the display width. _scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
+_scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
 
     $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=160:-3,rotate=2 examples/test.mpg
 
@@ -125,30 +135,14 @@ WIDTH is the display width. _scale_ is used because the movie is larger than mos
 
     $ FRAMEBUFFER=/dev/fb1 fim examples/Tux-small.png
 
-### Console
-Use display as the primary console.  
-If a keyboard is plugged in after power on, a reboot may be necessary.
-
-Map console 1 to framebuffer 1, login screen will show up on the display
-
-    $ con2fbmap 1 1
-
-    $ con2fbmap 1
-    console 1 is mapped to framebuffer 1
-
-Revert
-
-    $ con2fbmap 1 0
-
 Using the LCD as a console device
 ---------------------------------
-To use the display as a console, add this to the end of the line in `/boot/cmdline.txt`
+To use the display as a console, the kernel must be re-compiled with the ST7735 driver 'baked in' 
+rather than as separate modules; do that, reinstall and add this to the end of the line in `/boot/cmdline.txt`
 
-    fbcon=map:10 fbcon=font:ProFont6x11
+    fbcon=map:10 fbcon=rotate:1 fbcon=font:ProFont6x11
 
-*fbcon=rotate:1* can also be used. See
-[fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72)
-for more info.
+See [fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72) for more info.
 
 TODO
 ----
