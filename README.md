@@ -60,24 +60,24 @@ Break-out board pin-outs
 There appear to be a large number of break-out boards available for this device; this is the one 
 I have, with an additional SD card slot:
 
-| TFT Pin | Name    | Remarks                     | RPi Pin | RPi Function      |
-|--------:|:--------|:----------------------------|--------:|-------------------|
-| 1       | GND     | Ground                      | 6       | GND               |
-| 2       | VCC     | Power                       | 1       | 3V3)              |
-| 3       | NC      |                             |         |                   |
-| 4       | NC      |                             |         |                   |
-| 5       | NC      |                             |         |                   |
-| 6       | RESET   | Set low to reset            | 18      | GPIO 24           |
-| 7       | A0      | Data/command select (aka 'register select')        | 16      | GPIO 23           |
-| 8       | SDA     | SPI data                    | 19      | GPIO 10 (MOSI)    |
-| 9       | SCK     | SPI clock                   | 23      | GPIO 11 (SPI CLK) |
-| 10      | CS      | SPI chip select - set low   | 24      | GPIO 8 (SPI CS0)  |
-| 11      | SD-SCK  | SD serial clock             |         |                   |
-| 12      | SD-MISO | SD master in, slave out     |         |                   |
-| 13      | SD-MOSI | SD master out, slave in     |         |                   |
-| 14      | SD-CS   | SD chip select              |         |                   |
-| 15      | LED+    | Backlight control 3V3 - 3V7, already fitted with 10R resistor? | 12      | GPIO 18 (PWM CLK) |
-| 16      | LED-    | Backlight ground            | 6       | GND               |
+| TFT Pin | Name    | Remarks                     | RPi Pin | RPi Function      | Wire color |
+|--------:|:--------|:----------------------------|--------:|-------------------|------------|
+| 1       | GND     | Ground                      | 6       | GND               | Black      |
+| 2       | VCC     | Power                       | 1       | 3V3)              | Red|
+| 3       | NC      |                             |         |                   ||
+| 4       | NC      |                             |         |                   ||
+| 5       | NC      |                             |         |                   ||
+| 6       | RESET   | Set low to reset            | 18      | GPIO 24           | Blue |
+| 7       | A0      | Data/command select (aka 'register select')        | 16      | GPIO 23           | Grey |
+| 8       | SDA     | SPI data                    | 19      | GPIO 10 (MOSI)    | Orange |
+| 9       | SCK     | SPI clock                   | 23      | GPIO 11 (SPI CLK) | Brown |
+| 10      | CS      | SPI chip select - set low   | 24      | GPIO 8 (SPI CS0)  | Green |
+| 11      | SD-SCK  | SD serial clock             |         |                   ||
+| 12      | SD-MISO | SD master in, slave out     |         |                   ||
+| 13      | SD-MOSI | SD master out, slave in     |         |                   ||
+| 14      | SD-CS   | SD chip select              |         |                   ||
+| 15      | LED+    | Backlight control 3V3 - 3V7, already fitted with 10K resistor? | 12      | GPIO 18 (PWM CLK) | Pink |
+| 16      | LED-    | Backlight ground            | 6       | GND               | Black |
 
 Wiring Schematic
 ----------------
