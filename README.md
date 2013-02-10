@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ST7735 FrameBuffer for Raspberry Pi
 ===================================
 
@@ -8,7 +7,6 @@ a break-out board.
 
 ![1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
 
-Originally based on code from https://github.com/ohporter/linux-am33x/tree/st7735fb. 
 Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update), 
 kernel 3.6.11+ #371)
 
@@ -16,8 +14,8 @@ Further technical details for the LCD screen can be found in the
 [datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Other documentation
 can also be found in `docs/tech-spec`.
 
-Pre-requisites
---------------
+Building and installing the frame buffer driver
+-----------------------------------------------
 1. On the Raspberry Pi, enable SPI: edit `/etc/modprobe.d/raspi-blacklist.conf`
    to comment out blacklisting of _spi_bcm2708_.
 
@@ -34,51 +32,74 @@ Pre-requisites
    quicker to cross-compile than build the kernel on the RPi): 
 
       ```
-      $ sudo apt-get install build-essential ncurses-dev
+      $ sudo apt-get install make build-essential ncurses-dev
       ```
+4. Download the kernel sources with the ST7735 drivers:
 
-4. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
-   Note that: 
-   * it is only necessary to compile the kernel (up-to section 4 'Perform the compilation' in the guide).
-   * when the guide refers to `.config`, this is provided as `etc/config.gz` in git.
+    ```
+    $ git clone https://github.com/kamalmostafa/raspberrypi-linux.git
+    $ git checkout rpi-3.6.y+kamal-st7735fb
+    ```
 
-Building and installing the frame buffer driver
------------------------------------------------
-Providing that the kernel built satisfactorially without any errors, enter:
+5. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
+   Note that when the guide refers to `.config`, this is provided as `etc/config.gz` in git.
 
-    $ cd src
-    $ export BUILD_DIR=../../linux
-    $ export CCPREFIX=../../tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/
-    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX}  modules
+   Assume that the tools are installed in `~/RPi/tools`, and the kernel source is `~/RPi/raspberrypi-linux`. 
+   Briefly the compile steps are: 
 
-Note that the exports for _BUILD_DIR_ and _CCPREFIX_ will be specific to where you built the kernel and where 
-the cross-compiler tools were unpacked.
+    ```
+    $ export CCPREFIX=~/RPi/tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/arm-linux-gnueabi-
+    $ export MODULES_TEMP=~/RPi/modules
+    $ zcat etc/config.gz > ~/RPi/raspberrypi-linux/.config
+    $ make mproper
+    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} oldconfig
+    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} -j 6
+    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} modules 
+    $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=${MODULES_TEMP} modules_install
+    ```
 
-Once compiled, installed and inserted, you should get a second frame buffer at `/dev/fb1`.
+When prompted for ST7735 configuration specifics:
+
+- ST7735 framebuffer support (FB_ST7735) [N/m/y/?] (NEW) *y*
+- ST7735 panel is ‘red tab’ type? (FB_ST7735_PANEL_TYPE_RED_TAB) [Y/n/?] (NEW) *y*
+- ST7735 framebuffer mapping to SPI0.0 (FB_ST7735_MAP) [N/m/y/?] (NEW) *y*
+- ST7735 RST gpio pin number (FB_ST7735_MAP_RST_GPIO) [-1] (NEW) *24*
+- ST7735 D/C gpio pin number (FB_ST7735_MAP_DC_GPIO) [-1] (NEW) *23*
+- ST7735 SPI bus number (FB_ST7735_MAP_SPI_BUS_NUM) [0] (NEW) *0*
+- ST7735 SPI bus chipselect (FB_ST7735_MAP_SPI_BUS_CS) [0] (NEW) *0*
+- ST7735 SPI bus clock speed (Hz) (FB_ST7735_MAP_SPI_BUS_SPEED) [4000000] (NEW) *24000000*
+- ST7735 SPI bus mode (0, 1, 2, or 3) (FB_ST7735_MAP_SPI_BUS_MODE) [3] (NEW) *3*
+
+Once compiled, scp the `arch/arm/boot/zImage` over the `/boot/kernel.img` on the Raspberry Pi (make a backup first). 
+Next copy the `~/RPi/modules/lib/modules/3.6.11+` directory to `/lib/modules/3.6.11+` on the device (again move the
+existing directory out of the way first).
+
+On rebooting, enter `sudo depmod` and `sudo modprobe st7735fb_map` at a terminal and you should get a second frame 
+buffer at `/dev/fb1`, and the screen should present a nice gradient pattern. 
 
 Break-out board pin-outs
 ------------------------
 There appear to be a large number of break-out boards available for this device; this is the one 
 I have, with an additional SD card slot:
 
-| TFT Pin | Name    | Remarks                     | RPi Pin | RPi Function      | Wire color |
-|--------:|:--------|:----------------------------|--------:|-------------------|------------|
-| 1       | GND     | Ground                      | 6       | GND               | Black      |
-| 2       | VCC     | Power                       | 1       | 3V3)              | Red|
-| 3       | NC      |                             |         |                   ||
-| 4       | NC      |                             |         |                   ||
-| 5       | NC      |                             |         |                   ||
-| 6       | RESET   | Set low to reset            | 18      | GPIO 24           | Blue |
-| 7       | A0      | Data/command select (aka 'register select')        | 16      | GPIO 23           | Grey |
-| 8       | SDA     | SPI data                    | 19      | GPIO 10 (MOSI)    | Orange |
-| 9       | SCK     | SPI clock                   | 23      | GPIO 11 (SPI CLK) | Brown |
-| 10      | CS      | SPI chip select - set low   | 24      | GPIO 8 (SPI CS0)  | Green |
-| 11      | SD-SCK  | SD serial clock             |         |                   ||
-| 12      | SD-MISO | SD master in, slave out     |         |                   ||
-| 13      | SD-MOSI | SD master out, slave in     |         |                   ||
-| 14      | SD-CS   | SD chip select              |         |                   ||
-| 15      | LED+    | Backlight control 3V3 - 3V7, already fitted with 10K resistor? | 12      | GPIO 18 (PWM CLK) | Pink |
-| 16      | LED-    | Backlight ground            | 6       | GND               | Black |
+| TFT Pin | Name | Remarks | RPi Pin | RPi Function | Wire color |
+|--------:|:-----|:--------|--------:|--------------|------------|
+| 1 | GND | Ground | 6 | GND | Black |
+| 2 | VCC | Power | 1 | 3V3 | Red |
+| 3 | NC | | | | |
+| 4 | NC | | | | |
+| 5 | NC | | | | |
+| 6 | RESET | Set low to reset | 18 | GPIO 24 | Blue |
+| 7 | A0 | Data/command select (aka 'register select') | 16 | GPIO 23 | Grey |
+| 8 | SDA | SPI data | 19 | GPIO 10 (MOSI) | Orange |
+| 9 | SCK | SPI clock | 23 | GPIO 11 (SPI CLK) | Brown |
+| 10 | CS | SPI chip select - set low | 24 | GPIO 8 (SPI CS0) | Green |
+| 11 | SD-SCK | SD serial clock | | ||
+| 12 | SD-MISO | SD master in, slave out | | ||
+| 13 | SD-MOSI | SD master out, slave in | | ||
+| 14 | SD-CS | SD chip select | | ||
+| 15 | LED+ | Backlight control 3V3 - 3V7, already fitted with 10K resistor? | 1 | 3V3 | Red |
+| 16 | LED- | Backlight ground | 6 | GND | Black |
 
 Wiring Schematic
 ----------------
@@ -93,7 +114,7 @@ Testing
 ### mplayer
 WIDTH is the display width. _scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
 
-    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=WIDTH:-3 examples/test.mpg
+    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=160:-3,rotate=2 examples/test.mpg
 
 ### Image viewer
 
@@ -153,10 +174,3 @@ References
 * http://www.whence.com/rpi/
 
 * http://fritzing.org
-
-=======
-st7735fb
-========
-
-Schematics and build info for assembling a Raspberry Pi kernel with the correct ST7735 LCD framebuffer drivers 
->>>>>>> 489c724e11fc25bba19dfa2ad964c0d53b289371
