@@ -124,12 +124,12 @@ static struct st7735_function st7735_cfg_script[] = {
 };
 
 static struct fb_fix_screeninfo st7735fb_fix __devinitdata = {
-	.id =		"ST7735", 
+	.id =		"ST7735",
 	.type =		FB_TYPE_PACKED_PIXELS,
 	.visual =	FB_VISUAL_PSEUDOCOLOR,
 	.xpanstep =	0,
 	.ypanstep =	0,
-	.ywrapstep =	0, 
+	.ywrapstep =	0,
 	.line_length =	WIDTH*BPP/8,
 	.accel =	FB_ACCEL_NONE,
 };
@@ -277,12 +277,13 @@ static void st7735fb_update_display(struct st7735fb_par *par)
 		pr_err("%s: spi_write failed to update display buffer\n",
 			par->info->fix.id);
 }
-
+#ifdef CONFIG_FB_DEFERRED_IO
 static void st7735fb_deferred_io(struct fb_info *info,
 				struct list_head *pagelist)
 {
 	st7735fb_update_display(info->par);
 }
+#endif
 
 static int st7735fb_init_display(struct st7735fb_par *par)
 {
@@ -310,7 +311,7 @@ void st7735fb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
 	st7735fb_update_display(par);
 }
 
-void st7735fb_copyarea(struct fb_info *info, const struct fb_copyarea *area) 
+void st7735fb_copyarea(struct fb_info *info, const struct fb_copyarea *area)
 {
 	struct st7735fb_par *par = info->par;
 
@@ -319,7 +320,7 @@ void st7735fb_copyarea(struct fb_info *info, const struct fb_copyarea *area)
 	st7735fb_update_display(par);
 }
 
-void st7735fb_imageblit(struct fb_info *info, const struct fb_image *image) 
+void st7735fb_imageblit(struct fb_info *info, const struct fb_image *image)
 {
 	struct st7735fb_par *par = info->par;
 
@@ -379,10 +380,12 @@ static struct fb_ops st7735fb_ops = {
 	.fb_imageblit	= st7735fb_imageblit,
 };
 
+#ifdef CONFIG_FB_DEFERRED_IO
 static struct fb_deferred_io st7735fb_defio = {
 	.delay		= HZ/30,
 	.deferred_io	= st7735fb_deferred_io,
 };
+#endif
 
 static int __devinit st7735fb_probe (struct spi_device *spi)
 {
@@ -429,7 +432,9 @@ static int __devinit st7735fb_probe (struct spi_device *spi)
 	info->var.transp.offset = 0;
 	info->var.transp.length = 0;
 	info->flags = FBINFO_FLAG_DEFAULT | FBINFO_VIRTFB;
+#ifdef CONFIG_FB_DEFERRED_IO
 	info->fbdefio = &st7735fb_defio;
+#endif
 	fb_deferred_io_init(info);
 
 	par = info->par;
@@ -484,7 +489,7 @@ static int __devexit st7735fb_remove(struct spi_device *spi)
 
 	if (info) {
 		unregister_framebuffer(info);
-		vfree(info->screen_base);	
+		vfree(info->screen_base);
 		framebuffer_release(info);
 	}
 
