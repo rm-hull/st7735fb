@@ -24,6 +24,7 @@ class pyscope :
             # Make sure that SDL_VIDEODRIVER is set
             if not os.getenv('SDL_VIDEODRIVER'):
                 os.putenv('SDL_VIDEODRIVER', driver)
+                os.putenv('SDL_FBDEV', '/dev/fb1')
             try:
                 pygame.display.init()
             except pygame.error:
