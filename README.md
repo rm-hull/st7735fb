@@ -130,7 +130,7 @@ Testing
 ### mplayer
 _scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
 
-    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=160:-3,rotate=2 examples/video/test.mpg
+    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=160:-3,rotate=2 examples/video/test.mp4
 
 ### Image viewer
 
