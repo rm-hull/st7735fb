@@ -8,7 +8,7 @@ a break-out board.
 ![1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
 
 Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update), 
-kernel 3.6.11+ #371)
+kernel 3.6.11+ custom kernel)
 
 Further technical details for the LCD screen can be found in the 
 [datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Other documentation
