@@ -6,10 +6,9 @@
 #    https://github.com/rm-hull/maze/blob/master/src/maze/generator.clj
 #    https://github.com/rm-hull/pcd8544/blob/master/examples/maze.py
 
-import os
-import sys
 import pygame
 import time
+import st7735fb
 from random import randrange
 
 NORTH=1
@@ -121,56 +120,15 @@ class Maze:
         pygame.display.update()
 
 
-class Demo:
-    def __init__(self):
-        "Ininitializes a new pygame screen using the framebuffer"
-        # Based on "Python GUI in Linux frame buffer"
-        # http://www.karoltomala.com/blog/?p=679
-        disp_no = os.getenv("DISPLAY")
-        if disp_no:
-            print "I'm running under X display = {0}".format(disp_no)
-
-        # Check which frame buffer drivers are available
-        # Start with fbcon since directfb hangs with composite output
-        drivers = ['fbcon', 'directfb', 'svgalib']
-        found = False
-        for driver in drivers:
-            # Make sure that SDL_VIDEODRIVER is set
-            if not os.getenv('SDL_VIDEODRIVER'):
-                os.putenv('SDL_VIDEODRIVER', driver)
-                os.putenv('SDL_FBDEV', '/dev/fb1')
-            try:
-                pygame.display.init()
-            except pygame.error:
-                print 'Driver: {0} failed.'.format(driver)
-                continue
-            found = True
-            break
-
-        if not found:
-            raise Exception('No suitable video driver found!')
-
-        self.size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-        print "Framebuffer size: %d x %d" % self.size
-        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
-        # Clear the screen to start
-        self.screen.fill((0, 0, 0))
-        # Initialise font support
-        pygame.font.init()
-        # Render the screen
-        pygame.display.update()
-
-    def __del__(self):
-        "Destructor to make sure pygame shuts down, etc."
 
 def demo(iterations):
     borderColor = (255,255,255)
-    d = Demo()
+    fb = st7735fb.Framebuffer()
 
     for loop in range(iterations):
         for scale in [2,3,4,3]:
-            sz = map(lambda z: z/scale-1, d.size)
-            Maze(sz).render(d.screen, borderColor, lambda (a,b): (a * scale, b * scale))
+            sz = map(lambda z: z/scale-1, fb.size)
+            Maze(sz).render(fb.screen, borderColor, lambda (a,b): (a * scale, b * scale))
 
 
 if __name__ == "__main__":
