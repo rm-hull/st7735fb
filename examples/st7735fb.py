@@ -6,7 +6,8 @@ import pygame
 
 class Framebuffer:
     def __init__(self, device='/dev/fb1'):
-        "Ininitializes a new pygame screen using the framebuffer"
+        "Iniitializes a new pygame screen using the framebuffer"
+        os.system("modprobe st7735fb_map")
         # Based on "Python GUI in Linux frame buffer"
         # http://www.karoltomala.com/blog/?p=679
         disp_no = os.getenv("DISPLAY")
@@ -21,7 +22,7 @@ class Framebuffer:
             # Make sure that SDL_VIDEODRIVER is set
             if not os.getenv('SDL_VIDEODRIVER'):
                 os.putenv('SDL_VIDEODRIVER', driver)
-                #os.putenv('SDL_FBDEV', device)
+                os.putenv('SDL_FBDEV', device)
             try:
                 pygame.display.init()
             except pygame.error:
@@ -33,14 +34,16 @@ class Framebuffer:
         if not found:
             raise Exception('No suitable video driver found!')
 
-        self.size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+        self.width = pygame.display.Info().current_w
+        self.height = pygame.display.Info().current_h
+        self.size = (self.width, self.height)
+
         print "Framebuffer size: %d x %d" % self.size
+        pygame.mouse.set_visible(False)
         self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
         # Clear the screen to start
         self.screen.fill((0, 0, 0))
-        # Initialise font support
         pygame.font.init()
-        # Render the screen
         pygame.display.update()
 
     def __del__(self):
