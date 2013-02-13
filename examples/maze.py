@@ -114,12 +114,10 @@ class Maze:
                 line.append(p3)
 
             if len(line) > 0:
-                pygame.draw.lines(screen, borderColor, False, map(scale, line))
+                pygame.draw.lines(screen, borderColor, False, map(lambda (a,b): (scale(a),scale(b)), line))
 
-        pygame.draw.rect(screen, borderColor, (0,0) + scale((self.width,self.height)), 1)
+        pygame.draw.rect(screen, borderColor, (0,0,scale(self.width)+1,scale(self.height)+1), 1)
         pygame.display.update()
-
-
 
 def demo(iterations):
     borderColor = (255,255,255)
@@ -128,8 +126,7 @@ def demo(iterations):
     for loop in range(iterations):
         for scale in [2,3,4,3]:
             sz = map(lambda z: z/scale-1, fb.size)
-            Maze(sz).render(fb.screen, borderColor, lambda (a,b): (a * scale, b * scale))
-
+            Maze(sz).render(fb.screen, borderColor, lambda z: z * scale)
 
 if __name__ == "__main__":
     demo(5)
