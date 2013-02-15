@@ -19,3 +19,5 @@ Makefile.in
 
 Module.symvers
 modules.order
+
+*.pyc
