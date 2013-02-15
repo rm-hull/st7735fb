@@ -7,7 +7,8 @@ import pygame
 class Framebuffer:
     def __init__(self, device='/dev/fb1'):
         "Iniitializes a new pygame screen using the framebuffer"
-        os.system("modprobe st7735fb_map")
+        #os.system("modprobe st7735fb_map")
+        #time.sleep(3)
         # Based on "Python GUI in Linux frame buffer"
         # http://www.karoltomala.com/blog/?p=679
         disp_no = os.getenv("DISPLAY")
@@ -16,7 +17,7 @@ class Framebuffer:
 
         # Check which frame buffer drivers are available
         # Start with fbcon since directfb hangs with composite output
-        drivers = ['fbcon', 'directfb', 'svgalib']
+        drivers = ['fbcon', 'svgalib', 'directfb']
         found = False
         for driver in drivers:
             # Make sure that SDL_VIDEODRIVER is set
