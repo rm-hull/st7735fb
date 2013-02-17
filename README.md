@@ -118,12 +118,12 @@ With 4 push-buttons, resistor values 10K.
 
 ![Stripboard Layout](https://raw.github.com/rm-hull/st7735fb/master/doc/schematic_bb.png)
 
-Buttons (from top to bottom) are wired onto BCM pins as follows:
+Buttons (from left to right) are wired onto BCM pins as follows:
 
-* GPIO 14 (TxD)
-* GPIO 17 
-* GPIO 25
 * GPIO 22
+* GPIO 25 
+* GPIO 17
+* GPIO 14 (TxD)
 
 Testing
 -------
