@@ -49,8 +49,9 @@ Building and installing the frame buffer driver
     ```
     $ cd ~/RPi
     $ git clone git://github.com/raspberrypi/tools.git
+    ```
 
-5. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
+6. Follow the instructions for building a cross-compiled kernel [here](http://elinux.org/RPi_Kernel_Compilation).
    Note that when the guide refers to `.config`, this is provided as `etc/config.gz` in git.
 
    Let's assume that the tools are installed in `~/RPi/tools`, and the kernel source is `~/RPi/raspberrypi-linux`. 
@@ -124,6 +125,8 @@ Buttons (from left to right) are wired onto BCM pins as follows:
 * GPIO 25 
 * GPIO 17
 * GPIO 14 (TxD)
+
+Also: Dallas Semiconductors DS18B20 digital thermometer, wired onto GPIO 4, with 4.7K pull-up resistor.
 
 Testing
 -------
