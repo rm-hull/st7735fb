@@ -157,6 +157,8 @@ TODO
 
 References
 ----------
+* http://elinux.org/Rpi_Low-level_peripherals#General_Purpose_Input.2FOutput_.28GPIO.29
+
 * http://www.sitronix.com.tw/sitronix/product.nsf/Doc/ST7735?OpenDocument
 
 * http://learn.adafruit.com/1-8-tft-display
