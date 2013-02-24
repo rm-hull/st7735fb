@@ -64,7 +64,7 @@ Building and installing the frame buffer driver
     $ wget https://github.com/rm-hull/st7735fb/raw/master/etc/config.gz
     $ zcat config.gz > raspberrypi-linux/.config
     $ cd raspberrypi-linux
-    $ make mproper
+    $ make mrproper
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} oldconfig
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} -j 6
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=${MODULES_TEMP} modules_install
