@@ -35,24 +35,24 @@ def text(msg, font_size, color, posn):
     rect = surf.get_rect()
     rect.midtop = posn
     playSurface.blit(surf, rect)
-    pygame.display.flip();
 
 def image(image_path, posn):
     surf = pygame.image.load(image_path)
     rect = surf.get_rect()
     rect.midtop = posn
     playSurface.blit(surf, rect)
-    pygame.display.flip();
 
 def start():
     text('Raspberry Snake', 12, blueColor, (64,2))
     image('images/rasp.png', (64,14))
     text('Press 1 + 2 on the Wiimote', 9, whiteColor, (64,150))
+    pygame.display.flip();
 
 def gameOver():
     text('Game Over', 18, greyColor, (64,80))
+    pygame.display.flip();
     rumble()
-    time.sleep(4)
+    time.sleep(3)
     pygame.quit()
     sys.exit()
 
