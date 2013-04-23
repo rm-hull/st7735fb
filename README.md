@@ -7,8 +7,8 @@ a break-out board.
 
 ![1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
 
-Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest [RPi-Firmware](https://github.com/Hexxeh/rpi-update), 
-kernel 3.6.11+ custom kernel). A video demo is available here: https://vimeo.com/59438789.
+Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest kernel sources - 3.8.8+). 
+A video demo is available here: https://vimeo.com/59438789.
 
 Further technical details for the LCD screen can be found in the 
 [datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Other documentation
@@ -25,7 +25,7 @@ Building and installing the frame buffer driver
 
     ```
     $ uname -a
-    Linux raspberrypi 3.6.11+ #371 PREEMPT Thu Feb 7 16:31:35 GMT 2013 armv6l GNU/Linux
+    Linux raspberrypi 3.8.8+ #xxx PREEMPT ...
     ```
 
 3. Ensure the gcc build tools are installed on a host PC (it is much
@@ -40,8 +40,8 @@ Building and installing the frame buffer driver
     ```
     $ mkdir ~/RPi
     $ cd ~/RPi
-    $ git clone https://github.com/kamalmostafa/raspberrypi-linux.git
-    $ git checkout rpi-3.6.y+kamal-st7735fb
+    $ git clone https://github.com/rm-hull/raspberrypi-linux.git
+    $ git checkout rpi-3.8.y+rmh-st7735fb
     ```
 
 5. Download the cross-compiler tools:
@@ -83,11 +83,10 @@ When prompted for ST7735 configuration specifics:
 - ST7735 SPI bus mode (0, 1, 2, or 3) (FB_ST7735_MAP_SPI_BUS_MODE) [3] (NEW) *3*
 
 Once compiled, scp the `arch/arm/boot/zImage` over the `/boot/kernel.img` on the Raspberry Pi (make a backup first). 
-Next copy the `~/RPi/modules/lib/modules/3.6.11+` directory to `/lib/modules/3.6.11+` on the device (again move the
+Next copy the `~/RPi/modules/lib/modules/3.8.8+` directory to `/lib/modules/3.8.8+` on the device (again move the
 existing directory out of the way first).
 
-On rebooting, enter `sudo depmod` and `sudo modprobe st7735fb_map` at a terminal and you should get a second frame 
-buffer at `/dev/fb1`, and the screen should present a nice gradient pattern. 
+On rebooting, you should get a second frame buffer at `/dev/fb1`, and the screen should present a nice gradient pattern. 
 
 Break-out board pin-outs
 ------------------------
@@ -144,7 +143,7 @@ Using the LCD as a console device
 To use the display as a console, the kernel must be re-compiled with the BCM SPI & ST7735 drivers 'baked in' 
 rather than as separate modules; do that, reinstall and add this to the end of the line in `/boot/cmdline.txt`
 
-    fbcon=map:10 fbcon=rotate:1 fbcon=font:ProFont6x11
+    fbcon=map:10 fbcon=rotate:1 fbcon=font:MINI4x6
 
 See [fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72) for more info.
 
@@ -179,3 +178,5 @@ References
 * http://www.whence.com/rpi/
 
 * http://fritzing.org
+
+* http://harizanov.com/product/1-8-tft-display-for-raspberry-pi/
