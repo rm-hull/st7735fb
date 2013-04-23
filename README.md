@@ -62,9 +62,9 @@ Building and installing the frame buffer driver
     $ export CCPREFIX=~/RPi/tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/bin/arm-linux-gnueabi-
     $ export MODULES_TEMP=~/RPi/modules
     $ wget https://github.com/rm-hull/st7735fb/raw/master/etc/config.gz
-    $ zcat config.gz > raspberrypi-linux/.config
     $ cd raspberrypi-linux
     $ make mrproper
+    $ zcat config.gz > raspberrypi-linux/.config
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} oldconfig
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} -j 6
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=${MODULES_TEMP} modules_install
