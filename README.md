@@ -70,18 +70,6 @@ Building and installing the frame buffer driver
     $ make ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=${MODULES_TEMP} modules_install
     ```
 
-When prompted for ST7735 configuration specifics:
-
-- ST7735 framebuffer support (FB_ST7735) [N/m/y/?] (NEW) *y*
-- ST7735 panel is ‘red tab’ type? (FB_ST7735_PANEL_TYPE_RED_TAB) [Y/n/?] (NEW) *y*
-- ST7735 framebuffer mapping to SPI0.0 (FB_ST7735_MAP) [N/m/y/?] (NEW) *y*
-- ST7735 RST gpio pin number (FB_ST7735_MAP_RST_GPIO) [-1] (NEW) *24*
-- ST7735 D/C gpio pin number (FB_ST7735_MAP_DC_GPIO) [-1] (NEW) *23*
-- ST7735 SPI bus number (FB_ST7735_MAP_SPI_BUS_NUM) [0] (NEW) *0*
-- ST7735 SPI bus chipselect (FB_ST7735_MAP_SPI_BUS_CS) [0] (NEW) *0*
-- ST7735 SPI bus clock speed (Hz) (FB_ST7735_MAP_SPI_BUS_SPEED) [4000000] (NEW) *24000000*
-- ST7735 SPI bus mode (0, 1, 2, or 3) (FB_ST7735_MAP_SPI_BUS_MODE) [3] (NEW) *3*
-
 Once compiled, scp the `arch/arm/boot/zImage` over the `/boot/kernel.img` on the Raspberry Pi (make a backup first). 
 Next copy the `~/RPi/modules/lib/modules/3.8.8+` directory to `/lib/modules/3.8.8+` on the device (again move the
 existing directory out of the way first).
@@ -100,8 +88,8 @@ I have, with an additional SD card slot:
 | 3 | NC | | | | |
 | 4 | NC | | | | |
 | 5 | NC | | | | |
-| 6 | RESET | Set low to reset | 18 | GPIO 24 | Blue |
-| 7 | A0 | Data/command select (aka 'register select') | 16 | GPIO 23 | Grey |
+| 6 | RESET | Set low to reset | 18 | GPIO 24 | Blue* |
+| 7 | A0 | Data/command select (aka DC or 'register select') | 16 | GPIO 23 | Grey* |
 | 8 | SDA | SPI data | 19 | GPIO 10 (MOSI) | Orange |
 | 9 | SCK | SPI clock | 23 | GPIO 11 (SPI CLK) | Brown |
 | 10 | CS | SPI chip select - set low | 24 | GPIO 8 (SPI CS0) | Green |
@@ -111,6 +99,8 @@ I have, with an additional SD card slot:
 | 14 | SD-CS | SD chip select | | ||
 | 15 | LED+ | Backlight control 3V3 - 3V7, already fitted with 10K resistor? | 1 | 3V3 | Red |
 | 16 | LED- | Backlight ground | 6 | GND | Black |
+
+*-not shown on stripboard layout below - direct track connection.
 
 Stripboard Layout
 -----------------
@@ -132,7 +122,7 @@ Testing
 ### mplayer
 _scale_ is used because the movie is larger than most small displays. -3 means keep aspect ratio and calculate height.
 
-    $ mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=160:-3,rotate=2 examples/video/test.mp4
+    $ sudo mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=156:-3,rotate=1 examples/video/bird-is-the-word.mp4 
 
 ### Image viewer
 
@@ -141,9 +131,10 @@ _scale_ is used because the movie is larger than most small displays. -3 means k
 Using the LCD as a console device
 ---------------------------------
 To use the display as a console, the kernel must be re-compiled with the BCM SPI & ST7735 drivers 'baked in' 
-rather than as separate modules; do that, reinstall and add this to the end of the line in `/boot/cmdline.txt`
+rather than as separate modules (the config settings above do this); add this to the end of the line in 
+`/boot/cmdline.txt`
 
-    fbcon=map:10 fbcon=rotate:1 fbcon=font:MINI4x6
+    fbcon=map:10 fbcon=rotate:1 fbcon=font:MINI4x6 rst_gpio=24 dc_gpio=23
 
 See [fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72) for more info.
 
