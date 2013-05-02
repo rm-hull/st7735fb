@@ -7,12 +7,14 @@ a break-out board.
 
 ![1.8" 160x128 pixel TFT-LCD](http://www.adafruit.com/adablog/wp-content/uploads/2011/12/window-57.jpg)
 
-Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest kernel sources - 3.8.8+). 
-A video demo is available here: https://vimeo.com/59438789.
+Tested working with Rev B 512Mb Rasberry Pi (Raspbian "Wheezy" & latest kernel sources - 3.8.11+). 
+A couple of video demos are available here: 
+* https://vimeo.com/59438789
+* https://vimeo.com/59765667
 
 Further technical details for the LCD screen can be found in the 
-[datasheet](https://raw.github.com/rm-hull/st7735-fb/master/doc/tech-spec/datasheet.pdf) [PDF]. Other documentation
-can also be found in `docs/tech-spec`.
+[datasheet](https://github.com/rm-hull/st7735fb/blob/master/doc/tech-spec/datasheet.pdf?raw=true) [PDF]. Other documentation
+can also be found in [docs/tech-spec](https://github.com/rm-hull/st7735fb/tree/master/doc/tech-spec).
 
 Building and installing the frame buffer driver
 -----------------------------------------------
@@ -20,20 +22,21 @@ Building and installing the frame buffer driver
    to comment out blacklisting of _spi_bcm2708_.
 
 2. Ensure that the latest firmware has been applied to the Raspberry Pi. Use the updater from
-   https://github.com/Hexxeh/rpi-update to perform the update. After rebooting, confirm the
-   kernel version as follows:
+   https://github.com/Hexxeh/rpi-update to perform the update (use the BRANCH=next prefix). 
+   After rebooting, confirm the kernel version as follows (digits xx and yyy dont matter too much):
 
     ```
     $ uname -a
-    Linux raspberrypi 3.8.8+ #xxx PREEMPT ...
+    Linux raspberrypi 3.8.xx+ #yyy PREEMPT ...
     ```
 
 3. Ensure the gcc build tools are installed on a host PC (it is much
-   quicker to cross-compile than build the kernel on the RPi): 
+   quicker to cross-compile on an x86 linux machine than build the 
+   kernel on the RPi): 
 
     ```
-     $ sudo apt-get install make build-essential ncurses-dev git-core
-     ```
+    $ sudo apt-get install make build-essential ncurses-dev git-core
+    ```
      
 4. Download the kernel sources with the ST7735 drivers:
 
@@ -71,7 +74,7 @@ Building and installing the frame buffer driver
     ```
 
 Once compiled, scp the `arch/arm/boot/zImage` over the `/boot/kernel.img` on the Raspberry Pi (make a backup first). 
-Next copy the `~/RPi/modules/lib/modules/3.8.8+` directory to `/lib/modules/3.8.8+` on the device (again move the
+Next copy the `~/RPi/modules/lib/modules/3.8.11+` directory to `/lib/modules/3.8.11+` on the device (again move the
 existing directory out of the way first).
 
 On rebooting, you should get a second frame buffer at `/dev/fb1`, and the screen should present a nice gradient pattern. 
