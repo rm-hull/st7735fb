@@ -115,7 +115,8 @@ Buttons (from left to right) are wired onto BCM pins as follows:
 * GPIO 17
 * GPIO 14 (TxD)
 
-Also: Dallas Semiconductors DS18B20 digital thermometer, wired onto GPIO 4, with 4.7K pull-up resistor.
+Also: Dallas Semiconductors DS18B20 digital thermometer, wired onto GPIO 4, with 4.7K pull-up resistor. See 
+separate usage note [here](https://github.com/rm-hull/st7735fb/blob/master/DS18S20.md).
 
 Testing
 -------
