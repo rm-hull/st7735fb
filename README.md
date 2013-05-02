@@ -134,17 +134,34 @@ To use the display as a console, the kernel must be re-compiled with the BCM SPI
 rather than as separate modules (the config settings above do this); add this to the end of the line in 
 `/boot/cmdline.txt`
 
-    fbcon=map:10 fbcon=rotate:1 fbcon=font:MINI4x6
+    fbcon=map:10 fbcon=rotate:3 fbcon=font:MINI4x6
 
 See [fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72) for more info.
+
+Examples
+--------
+The framebuffer is owned by root, so first:
+
+    $ sudo -s
+    $ export FRAMEBUFFER=/dev/fb1
+
+To demo the maze generator:
+
+    $ python maze.py
+
+Copper bar animation:
+
+    $ python copper_bar.py
+
+Snake game (needs Wii Remote and bluetooth enabled):
+
+    $ python snake.py
 
 TODO
 ----
 * Extended documentation
 
 * Improve build instructions
-
-* Schematics & stripboard wiring
 
 * Example code (SDL / Python)
 
