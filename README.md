@@ -142,6 +142,10 @@ rather than as separate modules (the config settings above do this); add this to
 
 See [fbcon doc](http://www.mjmwired.net/kernel/Documentation/fb/fbcon.txt#72) for more info.
 
+And the finished article:
+
+![Built stripboard](https://github.com/rm-hull/st7735fb/blob/master/doc/images/IMG_2774.JPG?raw=true)
+
 Examples
 --------
 The framebuffer is owned by root, so first:
